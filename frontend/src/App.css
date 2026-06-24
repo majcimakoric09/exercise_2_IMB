@@ -143,6 +143,8 @@ button:disabled {
 .weather-map {
   height: 220px;
   width: 100%;
+  border: none;
+  display: block;
 }
 
 /* ── 3D Dice ─────────────────────────────────────────────── */

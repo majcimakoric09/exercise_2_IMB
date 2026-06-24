@@ -1,26 +1,6 @@
-import { useState, useEffect } from 'react'
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
-import 'leaflet/dist/leaflet.css'
-import L from 'leaflet'
-
-// Fix Leaflet's default marker icons — they break with Vite's asset bundling
-delete L.Icon.Default.prototype._getIconUrl
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
-  iconUrl:       'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-  shadowUrl:     'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-})
+import { useState } from 'react'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
-
-// Moves the map centre whenever the city changes
-function RecenterMap({ lat, lon }) {
-  const map = useMap()
-  useEffect(() => {
-    map.setView([lat, lon], 11)
-  }, [lat, lon, map])
-  return null
-}
 
 export default function Weather() {
   const [city, setCity]       = useState('')
@@ -46,6 +26,13 @@ export default function Weather() {
   }
 
   const handleKeyDown = (e) => { if (e.key === 'Enter') getWeather() }
+
+  // Build an OpenStreetMap embed URL centred on the city with a pin
+  const mapUrl = (lat, lon) => {
+    const pad = 0.06
+    const bbox = `${lon - pad},${lat - pad},${lon + pad},${lat + pad}`
+    return `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat},${lon}`
+  }
 
   return (
     <div className="card">
@@ -77,23 +64,14 @@ export default function Weather() {
             <p className="description">{weather.description}</p>
           </div>
 
-          {/* Interactive map centred on the city */}
           <div className="weather-map-wrapper">
-            <MapContainer
-              center={[weather.lat, weather.lon]}
-              zoom={11}
+            <iframe
+              title={`Map of ${weather.city}`}
+              src={mapUrl(weather.lat, weather.lon)}
               className="weather-map"
-              scrollWheelZoom={false}
-            >
-              <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
-              <RecenterMap lat={weather.lat} lon={weather.lon} />
-              <Marker position={[weather.lat, weather.lon]}>
-                <Popup>{weather.city}, {weather.country}</Popup>
-              </Marker>
-            </MapContainer>
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
           </div>
         </>
       )}
