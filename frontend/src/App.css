@@ -1,170 +1,310 @@
-* {
+/* ── Design Tokens ───────────────────────────────────────── */
+:root {
+  --bg:              #f0f4ff;
+  --card-bg:         #ffffff;
+  --primary:         #2563eb;
+  --primary-hover:   #1d4ed8;
+  --primary-light:   #eff6ff;
+  --primary-border:  #bfdbfe;
+  --text-primary:    #0f172a;
+  --text-secondary:  #475569;
+  --text-muted:      #94a3b8;
+  --border:          #e2e8f0;
+  --radius-sm:       10px;
+  --radius-md:       16px;
+  --radius-lg:       22px;
+  --shadow-card:     0 4px 24px rgba(15, 23, 42, 0.07);
+  --shadow-hover:    0 8px 40px rgba(37, 99, 235, 0.15);
+  --shadow-btn:      0 4px 14px rgba(37, 99, 235, 0.35);
+}
+
+/* ── Reset ───────────────────────────────────────────────── */
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+/* ── Base ────────────────────────────────────────────────── */
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #eff6ff;
-  color: #1e3a5f;
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+/* ── App Shell ───────────────────────────────────────────── */
 .app {
-  max-width: 960px;
+  max-width: 1080px;
   margin: 0 auto;
-  padding: 2rem 1rem;
-}
-
-h1 {
-  text-align: center;
-  margin-bottom: 2rem;
-  color: #1e40af;
-  font-size: 2rem;
-}
-
-/* Two cards side by side, stack on small screens */
-.cards {
+  padding: 3rem 1.5rem 3.5rem;
   display: flex;
-  gap: 1.5rem;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 2.5rem;
 }
 
+/* ── Header ─────────────────────────────────────────────── */
+.app-header {
+  text-align: center;
+}
+
+.app-header h1 {
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.03em;
+  margin-bottom: 0.55rem;
+}
+
+.app-subtitle {
+  font-size: 1rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+/* ── Cards Grid ─────────────────────────────────────────── */
+.cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.75rem;
+  align-items: stretch;
+}
+
+@media (max-width: 680px) {
+  .cards { grid-template-columns: 1fr; }
+  .app   { padding: 2rem 1rem 2.5rem; }
+}
+
+/* ── Card ───────────────────────────────────────────────── */
 .card {
-  background: white;
-  border-radius: 12px;
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
   padding: 1.75rem;
-  flex: 1;
-  min-width: 280px;
-  box-shadow: 0 2px 12px rgba(37, 99, 235, 0.12);
-  border-top: 3px solid #3b82f6;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
 }
 
-.card h2 {
-  margin-bottom: 1.25rem;
-  color: #1d4ed8;
-  font-size: 1.3rem;
+.card:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
 }
 
-/* Weather input row */
+/* ── Card Header ────────────────────────────────────────── */
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.card-icon {
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.card-header h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+/* ── Input Row ───────────────────────────────────────────── */
 .input-row {
   display: flex;
   gap: 0.5rem;
-  margin-bottom: 1rem;
 }
 
 input[type='text'] {
   flex: 1;
-  padding: 0.6rem 0.85rem;
-  border: 1.5px solid #bfdbfe;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: border-color 0.2s;
+  padding: 0.65rem 1rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--text-primary);
+  background: #f8fafc;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
 }
+
+input[type='text']::placeholder { color: var(--text-muted); }
 
 input[type='text']:focus {
-  outline: none;
-  border-color: #2563eb;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+  background: #fff;
 }
 
-/* Shared button style */
-button {
-  padding: 0.6rem 1.1rem;
-  background: #2563eb;
-  color: white;
+/* ── Primary Button (Weather) ────────────────────────────── */
+.btn-primary {
+  padding: 0.65rem 1.2rem;
+  background: var(--primary);
+  color: #fff;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
+  font-size: 0.93rem;
+  font-weight: 600;
+  font-family: inherit;
   cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-btn);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.btn-primary:disabled {
+  background: var(--text-muted);
+  cursor: not-allowed;
+}
+
+/* ── Roll Button (Dice — full width) ─────────────────────── */
+.btn-roll {
+  width: 100%;
+  padding: 0.8rem 1.5rem;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  letter-spacing: 0.01em;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+
+.btn-roll:hover:not(:disabled) {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-btn);
+}
+
+.btn-roll:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.btn-roll:disabled {
+  background: var(--text-muted);
+  cursor: not-allowed;
+}
+
+/* ── Error ───────────────────────────────────────────────── */
+.error-msg {
+  color: #b91c1c;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 0.9rem;
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+/* ── Weather Result Card ─────────────────────────────────── */
+.weather-result-card {
+  background: linear-gradient(145deg, #eff6ff 0%, #dbeafe 100%);
+  border: 1px solid var(--primary-border);
+  border-radius: var(--radius-md);
+  padding: 1.75rem 1.25rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.weather-icon-large {
+  font-size: 3.8rem;
+  line-height: 1;
+  margin-bottom: 0.35rem;
+  filter: drop-shadow(0 2px 8px rgba(37,99,235,0.2));
+}
+
+.weather-city {
   font-size: 1rem;
   font-weight: 600;
-  transition: background 0.2s, transform 0.1s;
+  color: var(--text-secondary);
+  letter-spacing: 0.01em;
 }
 
-button:hover:not(:disabled) {
-  background: #1d4ed8;
-  transform: translateY(-1px);
+.weather-temp {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--primary);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  margin: 0.15rem 0;
 }
 
-button:active:not(:disabled) {
-  transform: translateY(0);
+.weather-temp-f {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  font-weight: 500;
 }
 
-button:disabled {
-  background: #a0aec0;
-  cursor: not-allowed;
-  transform: none;
+.weather-badge {
+  display: inline-block;
+  margin-top: 0.55rem;
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.3rem 0.9rem;
+  border-radius: 999px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
-/* Error message */
-.error {
-  color: #e53e3e;
-  margin-top: 0.5rem;
-  font-size: 0.95rem;
-}
-
-/* Weather result */
-.weather-result {
-  margin-top: 1.25rem;
-  text-align: center;
-  padding: 1rem;
-  background: #dbeafe;
-  border-radius: 10px;
-}
-
-.city-name {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #1e3a8a;
-  margin-bottom: 0.5rem;
-}
-
-.temperature {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: #1d4ed8;
-  margin: 0.25rem 0;
-}
-
-.description {
-  color: #3b82f6;
-  font-style: italic;
-  margin-top: 0.25rem;
-}
-
-/* ── Weather Map ─────────────────────────────────────────── */
-
-.weather-map-wrapper {
-  margin-top: 1rem;
-  border-radius: 10px;
+/* ── Map ────────────────────────────────────────────────── */
+.map-wrapper {
+  border-radius: var(--radius-md);
   overflow: hidden;
-  border: 1.5px solid #bfdbfe;
+  border: 1px solid var(--primary-border);
+  box-shadow: 0 2px 8px rgba(37,99,235,0.08);
 }
 
 .weather-map {
-  height: 220px;
-  width: 100%;
-  border: none;
   display: block;
+  width: 100%;
+  height: 230px;
+  border: none;
 }
 
 /* ── 3D Dice ─────────────────────────────────────────────── */
-
 .dice-3d-row {
+  flex: 1;
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 2.5rem;
-  margin: 1.75rem 0 1rem;
+  padding: 0.75rem 0;
+  min-height: 120px;
 }
 
-/* Perspective container — one per die */
 .die-scene {
   width: 100px;
   height: 100px;
-  perspective: 400px;
+  perspective: 420px;
 }
 
-/* The cube itself */
 .die-cube {
   width: 100px;
   height: 100px;
@@ -172,12 +312,10 @@ button:disabled {
   transform-style: preserve-3d;
 }
 
-/* Smooth landing after roll */
 .die-resting {
   transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* Tumble animation while waiting for result */
 .die-rolling {
   animation: dice-tumble 0.9s ease-in-out forwards;
   transition: none;
@@ -193,15 +331,16 @@ button:disabled {
   100% { transform: rotateX(540deg) rotateY(450deg); }
 }
 
-/* Six faces — each half-size (50px) away from the cube centre */
 .die-face {
   position: absolute;
   width: 100px;
   height: 100px;
-  background: #fff;
-  border: 1.5px solid #bfdbfe;
-  border-radius: 16px;
-  box-shadow: inset 0 0 10px rgba(37, 99, 235, 0.08);
+  background: #ffffff;
+  border: 1.5px solid var(--primary-border);
+  border-radius: 18px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.9),
+    inset 0 0 16px rgba(37,99,235,0.06);
 }
 
 .face-front  { transform: translateZ(50px); }
@@ -211,7 +350,6 @@ button:disabled {
 .face-top    { transform: rotateX(-90deg)  translateZ(50px); }
 .face-bottom { transform: rotateX(90deg)   translateZ(50px); }
 
-/* Pip grid — 3 × 3 cells inside each face */
 .die-face-pips {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -227,26 +365,104 @@ button:disabled {
 }
 
 .pip-on {
-  background: #1d4ed8;
-  box-shadow: 0 1px 3px rgba(29, 78, 216, 0.4);
+  background: var(--primary);
+  box-shadow: 0 1px 4px rgba(37, 99, 235, 0.45);
 }
 
-/* Score row below the dice */
-.dice-score {
+/* ── Dice Result Card ───────────────────────────────────── */
+.dice-result-card {
+  background: linear-gradient(145deg, #eff6ff 0%, #dbeafe 100%);
+  border: 1px solid var(--primary-border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.35rem;
-  margin-top: 0.5rem;
-  color: #1e40af;
+  gap: 0.85rem;
 }
 
-.dice-score span {
+.dice-values {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  width: 100%;
+}
+
+.die-value-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.die-value-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.die-value-number {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--primary);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.dice-separator {
+  width: 1px;
+  height: 44px;
+  background: var(--primary-border);
+  border-radius: 1px;
+}
+
+.dice-total {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--primary-border);
+  width: 100%;
+}
+
+.dice-total-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.dice-total-value {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+/* ── Footer ─────────────────────────────────────────────── */
+.app-footer {
+  text-align: center;
+  padding-top: 0.5rem;
+}
+
+.footer-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border) 30%, var(--border) 70%, transparent);
+  margin-bottom: 1.5rem;
+}
+
+.footer-quote {
   font-size: 0.95rem;
-}
-
-.total {
-  font-size: 1.3rem;
-  color: #1e3a8a;
-  margin-top: 0.25rem;
+  color: var(--text-muted);
+  font-style: italic;
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.7;
+  font-weight: 400;
 }

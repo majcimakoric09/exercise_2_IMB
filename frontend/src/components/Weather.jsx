@@ -2,6 +2,29 @@ import { useState } from 'react'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
+function getWeatherIcon(description) {
+  const d = description.toLowerCase()
+  if (d.includes('thunder'))                    return '⛈️'
+  if (d.includes('blizzard'))                   return '🌨️'
+  if (d.includes('heavy snow') || d === 'snow') return '❄️'
+  if (d.includes('snow') || d.includes('sleet'))return '🌨️'
+  if (d.includes('heavy rain'))                 return '🌧️'
+  if (d.includes('rain') || d.includes('shower')) return '🌦️'
+  if (d.includes('drizzle'))                    return '🌦️'
+  if (d.includes('fog') || d.includes('rime'))  return '🌫️'
+  if (d.includes('overcast'))                   return '☁️'
+  if (d.includes('partly cloudy'))              return '⛅'
+  if (d.includes('mainly clear'))               return '🌤️'
+  if (d.includes('clear'))                      return '☀️'
+  return '🌡️'
+}
+
+const buildMapUrl = (lat, lon) => {
+  const pad  = 0.06
+  const bbox = `${lon - pad},${lat - pad},${lon + pad},${lat + pad}`
+  return `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat},${lon}`
+}
+
 export default function Weather() {
   const [city, setCity]       = useState('')
   const [weather, setWeather] = useState(null)
@@ -27,47 +50,42 @@ export default function Weather() {
 
   const handleKeyDown = (e) => { if (e.key === 'Enter') getWeather() }
 
-  // Build an OpenStreetMap embed URL centred on the city with a pin
-  const mapUrl = (lat, lon) => {
-    const pad = 0.06
-    const bbox = `${lon - pad},${lat - pad},${lon + pad},${lat + pad}`
-    return `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat},${lon}`
-  }
-
   return (
     <div className="card">
-      <h2>🌤️ Weather</h2>
+      <div className="card-header">
+        <span className="card-icon">🌤️</span>
+        <h2>Weather</h2>
+      </div>
 
       <div className="input-row">
         <input
           type="text"
-          placeholder="Enter city name..."
+          placeholder="Enter city name…"
           value={city}
           onChange={(e) => setCity(e.target.value)}
           onKeyDown={handleKeyDown}
         />
-        <button onClick={getWeather} disabled={loading}>
-          {loading ? 'Loading...' : 'Get Weather'}
+        <button className="btn-primary" onClick={getWeather} disabled={loading}>
+          {loading ? 'Loading…' : 'Search'}
         </button>
       </div>
 
-      {error && <p className="error">⚠️ {error}</p>}
+      {error && <p className="error-msg">⚠️ {error}</p>}
 
       {weather && (
         <>
-          <div className="weather-result">
-            <p className="city-name">{weather.city}, {weather.country}</p>
-            <p className="temperature">{weather.temperature_c}°C</p>
-            <p className="temperature" style={{ fontSize: '1.3rem', color: '#a0aec0' }}>
-              {weather.temperature_f}°F
-            </p>
-            <p className="description">{weather.description}</p>
+          <div className="weather-result-card">
+            <div className="weather-icon-large">{getWeatherIcon(weather.description)}</div>
+            <p className="weather-city">{weather.city}, {weather.country}</p>
+            <p className="weather-temp">{weather.temperature_c}°C</p>
+            <p className="weather-temp-f">{weather.temperature_f}°F</p>
+            <span className="weather-badge">{weather.description}</span>
           </div>
 
-          <div className="weather-map-wrapper">
+          <div className="map-wrapper">
             <iframe
               title={`Map of ${weather.city}`}
-              src={mapUrl(weather.lat, weather.lon)}
+              src={buildMapUrl(weather.lat, weather.lon)}
               className="weather-map"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
