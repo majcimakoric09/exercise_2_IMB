@@ -6,8 +6,8 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #f0f4f8;
-  color: #333;
+  background: #eff6ff;
+  color: #1e3a5f;
   min-height: 100vh;
 }
 
@@ -20,7 +20,7 @@ body {
 h1 {
   text-align: center;
   margin-bottom: 2rem;
-  color: #2d3748;
+  color: #1e40af;
   font-size: 2rem;
 }
 
@@ -37,12 +37,13 @@ h1 {
   padding: 1.75rem;
   flex: 1;
   min-width: 280px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 12px rgba(37, 99, 235, 0.12);
+  border-top: 3px solid #3b82f6;
 }
 
 .card h2 {
   margin-bottom: 1.25rem;
-  color: #4a5568;
+  color: #1d4ed8;
   font-size: 1.3rem;
 }
 
@@ -56,7 +57,7 @@ h1 {
 input[type='text'] {
   flex: 1;
   padding: 0.6rem 0.85rem;
-  border: 1.5px solid #cbd5e0;
+  border: 1.5px solid #bfdbfe;
   border-radius: 8px;
   font-size: 1rem;
   transition: border-color 0.2s;
@@ -64,13 +65,13 @@ input[type='text'] {
 
 input[type='text']:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #2563eb;
 }
 
 /* Shared button style */
 button {
   padding: 0.6rem 1.1rem;
-  background: #667eea;
+  background: #2563eb;
   color: white;
   border: none;
   border-radius: 8px;
@@ -81,7 +82,7 @@ button {
 }
 
 button:hover:not(:disabled) {
-  background: #5a67d8;
+  background: #1d4ed8;
   transform: translateY(-1px);
 }
 
@@ -107,26 +108,26 @@ button:disabled {
   margin-top: 1.25rem;
   text-align: center;
   padding: 1rem;
-  background: #ebf4ff;
+  background: #dbeafe;
   border-radius: 10px;
 }
 
 .city-name {
   font-size: 1.2rem;
   font-weight: 700;
-  color: #2d3748;
+  color: #1e3a8a;
   margin-bottom: 0.5rem;
 }
 
 .temperature {
   font-size: 2.5rem;
   font-weight: bold;
-  color: #667eea;
+  color: #1d4ed8;
   margin: 0.25rem 0;
 }
 
 .description {
-  color: #718096;
+  color: #3b82f6;
   font-style: italic;
   margin-top: 0.25rem;
 }
@@ -137,7 +138,7 @@ button:disabled {
   margin-top: 1rem;
   border-radius: 10px;
   overflow: hidden;
-  border: 1.5px solid #e2e8f0;
+  border: 1.5px solid #bfdbfe;
 }
 
 .weather-map {
@@ -198,9 +199,9 @@ button:disabled {
   width: 100px;
   height: 100px;
   background: #fff;
-  border: 1.5px solid #cbd5e0;
+  border: 1.5px solid #bfdbfe;
   border-radius: 16px;
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.07);
+  box-shadow: inset 0 0 10px rgba(37, 99, 235, 0.08);
 }
 
 .face-front  { transform: translateZ(50px); }
@@ -226,8 +227,8 @@ button:disabled {
 }
 
 .pip-on {
-  background: #2d3748;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  background: #1d4ed8;
+  box-shadow: 0 1px 3px rgba(29, 78, 216, 0.4);
 }
 
 /* Score row below the dice */
@@ -237,7 +238,7 @@ button:disabled {
   align-items: center;
   gap: 0.35rem;
   margin-top: 0.5rem;
-  color: #4a5568;
+  color: #1e40af;
 }
 
 .dice-score span {
@@ -246,6 +247,6 @@ button:disabled {
 
 .total {
   font-size: 1.3rem;
-  color: #2d3748;
+  color: #1e3a8a;
   margin-top: 0.25rem;
 }
