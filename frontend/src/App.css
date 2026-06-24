@@ -131,47 +131,105 @@ button:disabled {
   margin-top: 0.25rem;
 }
 
-/* Dice */
-.dice-result {
-  margin-top: 1.25rem;
-  text-align: center;
-}
+/* ── 3D Dice ─────────────────────────────────────────────── */
 
-.dice {
+.dice-3d-row {
   display: flex;
   justify-content: center;
-  gap: 1.5rem;
-  margin: 0.75rem 0;
+  gap: 2.5rem;
+  margin: 1.75rem 0 1rem;
 }
 
-.die {
-  font-size: 5rem;
-  line-height: 1;
-  display: inline-block;
+/* Perspective container — one per die */
+.die-scene {
+  width: 100px;
+  height: 100px;
+  perspective: 400px;
 }
 
-/* Spin animation plays while rolling === true */
-.rolling .die {
-  animation: spin 0.7s ease-in-out infinite;
+/* The cube itself */
+.die-cube {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  transform-style: preserve-3d;
 }
 
-@keyframes spin {
-  0%   { transform: rotate(0deg) scale(1); }
-  25%  { transform: rotate(90deg) scale(1.15); }
-  50%  { transform: rotate(180deg) scale(1); }
-  75%  { transform: rotate(270deg) scale(1.15); }
-  100% { transform: rotate(360deg) scale(1); }
+/* Smooth landing after roll */
+.die-resting {
+  transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.dice-values {
-  color: #4a5568;
+/* Tumble animation while waiting for result */
+.die-rolling {
+  animation: dice-tumble 0.9s ease-in-out forwards;
+  transition: none;
+}
+
+@keyframes dice-tumble {
+  0%   { transform: rotateX(0deg)   rotateY(0deg); }
+  15%  { transform: rotateX(200deg) rotateY(80deg); }
+  30%  { transform: rotateX(100deg) rotateY(220deg); }
+  50%  { transform: rotateX(320deg) rotateY(150deg); }
+  65%  { transform: rotateX(240deg) rotateY(330deg); }
+  80%  { transform: rotateX(420deg) rotateY(260deg); }
+  100% { transform: rotateX(540deg) rotateY(450deg); }
+}
+
+/* Six faces — each half-size (50px) away from the cube centre */
+.die-face {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background: #fff;
+  border: 1.5px solid #cbd5e0;
+  border-radius: 16px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.07);
+}
+
+.face-front  { transform: translateZ(50px); }
+.face-back   { transform: rotateY(180deg)  translateZ(50px); }
+.face-right  { transform: rotateY(90deg)   translateZ(50px); }
+.face-left   { transform: rotateY(-90deg)  translateZ(50px); }
+.face-top    { transform: rotateX(-90deg)  translateZ(50px); }
+.face-bottom { transform: rotateX(90deg)   translateZ(50px); }
+
+/* Pip grid — 3 × 3 cells inside each face */
+.die-face-pips {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+  padding: 13px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.pip {
+  border-radius: 50%;
+}
+
+.pip-on {
+  background: #2d3748;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+/* Score row below the dice */
+.dice-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
   margin-top: 0.5rem;
-  font-size: 1rem;
+  color: #4a5568;
+}
+
+.dice-score span {
+  font-size: 0.95rem;
 }
 
 .total {
-  font-size: 1.4rem;
-  font-weight: bold;
+  font-size: 1.3rem;
   color: #2d3748;
-  margin-top: 0.5rem;
+  margin-top: 0.25rem;
 }
