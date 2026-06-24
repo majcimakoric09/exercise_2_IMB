@@ -1,6 +1,7 @@
 import random
 import time
 import requests
+import pandas as pd
 import streamlit as st
 
 # Open-Meteo — 100% free, no API key required
@@ -63,6 +64,9 @@ if st.button("Get Weather") and city:
                 col1.metric("Temperature (°C)", f"{temp_c}°C")
                 col2.metric("Temperature (°F)", f"{temp_f}°F")
                 st.caption(f"Condition: {desc}")
+
+                # Map centred on the city
+                st.map(pd.DataFrame({"lat": [lat], "lon": [lon]}), zoom=10)
 
         except requests.exceptions.Timeout:
             st.error("Request timed out. Check your internet connection.")

@@ -71,6 +71,8 @@ def get_weather(city: str):
         "temperature_c": temp_c,
         "temperature_f": temp_f,
         "description": description,
+        "lat": lat,
+        "lon": lon,
     }
 
 

@@ -131,6 +131,20 @@ button:disabled {
   margin-top: 0.25rem;
 }
 
+/* ── Weather Map ─────────────────────────────────────────── */
+
+.weather-map-wrapper {
+  margin-top: 1rem;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1.5px solid #e2e8f0;
+}
+
+.weather-map {
+  height: 220px;
+  width: 100%;
+}
+
 /* ── 3D Dice ─────────────────────────────────────────────── */
 
 .dice-3d-row {
